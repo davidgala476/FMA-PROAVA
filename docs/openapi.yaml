@@ -1,0 +1,138 @@
+openapi: 3.0.0
+info:
+  title: Departamento de Alquimia Estatal
+  description: API para la gestión de alquimistas estatales, transmutaciones y misiones
+  version: 1.0.0
+  contact:
+    name: Soporte Técnico
+    email: soporte@alquimia.gov
+servers:
+  - url: http://localhost:8080/api
+    description: Servidor de desarrollo
+paths:
+  /health:
+    get:
+      summary: Health check del sistema
+      tags:
+        - Sistema
+      responses:
+        '200':
+          description: Sistema operativo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "ok"
+                  service:
+                    type: string
+                    example: "Amestris Dept - Alquimia Estatal"
+                  version:
+                    type: string
+                    example: "1.0.0"
+  /alchemists:
+    get:
+      summary: Obtener lista de alquimistas estatales
+      tags:
+        - Alquimistas
+      responses:
+        '200':
+          description: Lista de alquimistas obtenida exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Operación exitosa"
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Alchemist'
+    post:
+      summary: Registrar nuevo alquimista estatal
+      tags:
+        - Alquimistas
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AlchemistInput'
+      responses:
+        '201':
+          description: Alquimista creado exitosamente
+        '409':
+          description: El ID militar ya está registrado
+  /alchemists/{id}:
+    get:
+      summary: Obtener alquimista por ID
+      tags:
+        - Alquimistas
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Alquimista encontrado
+        '404':
+          description: Alquimista no encontrado
+components:
+  schemas:
+    Alchemist:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        military_id:
+          type: string
+          example: "A-001"
+        name:
+          type: string
+          example: "Edward Elric"
+        title:
+          type: string
+          example: "Alquimista de Acero"
+        specialization:
+          type: string
+          example: "Metales"
+        rank:
+          type: string
+          example: "Major"
+        status:
+          type: string
+          example: "active"
+        created_at:
+          type: string
+          format: date-time
+    AlchemistInput:
+      type: object
+      required:
+        - military_id
+        - name
+      properties:
+        military_id:
+          type: string
+          example: "A-001"
+        name:
+          type: string
+          example: "Edward Elric"
+        title:
+          type: string
+          example: "Alquimista de Acero"
+        specialization:
+          type: string
+          example: "Metales"
+        rank:
+          type: string
+          example: "Major"

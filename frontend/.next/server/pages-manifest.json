@@ -1,0 +1,10 @@
+{
+  "/_app": "pages/_app.js",
+  "/_error": "pages/_error.js",
+  "/_document": "pages/_document.js",
+  "/login": "pages/login.js",
+  "/": "pages/index.js",
+  "/alquimistas": "pages/alquimistas.js",
+  "/transmutaciones": "pages/transmutaciones.js",
+  "/misiones": "pages/misiones.js"
+}
