@@ -53,12 +53,21 @@ export default function Notifications() {
             message = `Misión asignada: ${payload.mission?.title || payload.mission?.Title || ''}`;
             resource = payload.mission ? `mission:${payload.mission?.id || payload.mission?.ID || ''}` : undefined;
           } else {
-            message = JSON.stringify(payload);
-            resource = payload.resource;
+            return;
           }
         } else if (payload && payload.action) {
           action = payload.action;
           resource = payload.resource;
+          const allowed = new Set([
+            'TRANSMUTATION_APPROVED',
+            'TRANSMUTATION_REJECTED',
+            'TRANSMUTATION_CREATED',
+            'MISSION_CREATED',
+            'OVERDUE_MISSION',
+            'STALE_MISSION',
+            'HIGH_MATERIAL_USAGE'
+          ]);
+          if (!allowed.has(action)) return;
           switch (action) {
             case 'TRANSMUTATION_APPROVED':
               message = `Transmutación aprobada: ${payload.resource || ''}`;
@@ -79,17 +88,14 @@ export default function Notifications() {
             case 'HIGH_MATERIAL_USAGE':
               message = `Alto uso de material: ${payload.details || ''}`;
               break;
-            default:
-              message = JSON.stringify(payload);
           }
         } else {
-          message = evt.data;
+          return;
         }
         if (action && action.startsWith && action.startsWith('API_')) {
           return;
         }
 
-        // construir llave para deduplicar
         const key = action && resource ? `${action}:${resource}` : undefined;
 
         if (key && keyToId.current.has(key)) {
