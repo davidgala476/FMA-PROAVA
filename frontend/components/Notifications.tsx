@@ -67,7 +67,7 @@ export default function Notifications() {
             'STALE_MISSION',
             'HIGH_MATERIAL_USAGE'
           ]);
-          if (!allowed.has(action)) return;
+          if (!allowed.has(action as string)) return;
           switch (action) {
             case 'TRANSMUTATION_APPROVED':
               message = `Transmutación aprobada: ${payload.resource || ''}`;
