@@ -68,9 +68,10 @@ func InitDB(cfg Config) (*gorm.DB, error) {
 // redis para workers segunda opcion ayuda
 func InitRedis(cfg Config) *redis.Client {
 	return redis.NewClient(&redis.Options{
-		Addr:     cfg.RedisAddr,
-		Password: "",
-		DB:       0,
+		Addr:           cfg.RedisAddr,
+		Password:       "",
+		DB:             0,
+		DisableIndentity: true,
 	})
 }
 func NewApp(cfg Config) (*App, error) {
@@ -99,9 +100,10 @@ func NewApp(cfg Config) (*App, error) {
 
 	//configurar Redis
 	rdb := redis.NewClient(&redis.Options{
-		Addr:     cfg.RedisAddr,
-		Password: "",
-		DB:       0,
+		Addr:           cfg.RedisAddr,
+		Password:       "",
+		DB:             0,
+		DisableIndentity: true,
 	})
 
 	//verificar conexión a Redis

@@ -6,7 +6,7 @@ import (
 
 type Alchemist struct {
 	ID             uint      `json:"id" gorm:"primaryKey"`
-	MilitaryID     string    `json:"military_id" gorm:"uniqueIndex:idx_military_id;not null"`
+	MilitaryID     string    `json:"military_id" gorm:"unique;not null"`
 	Name           string    `json:"name" gorm:"not null"`
 	Title          string    `json:"title"`
 	Specialization string    `json:"specialization"`
